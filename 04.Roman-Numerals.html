@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roman Numerals Converter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <style>* { font-family: 'Oswald', sans-serif; }</style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start p-6 gap-6">
+
+  <div class="w-full max-w-5xl">
+    <a href="index.html" class="inline-flex items-center gap-1 text-gray-400 hover:text-blue-500 text-sm transition-colors">
+      <i class='bx bx-arrow-back'></i> Back to Index
+    </a>
+  </div>
+
+  <div class="w-full max-w-5xl">
+    <h1 class="text-4xl font-bold text-gray-800">Roman Numerals Converter</h1>
+    <p class="text-gray-400 font-light mt-1">Convert between Roman numerals and decimal numbers</p>
+  </div>
+
+  <!-- Bento: two converters side by side, reference on the right -->
+  <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+    <!-- Roman → Number -->
+    <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-4">
+      <h2 class="text-lg font-semibold text-blue-600 flex items-center gap-2"><i class='bx bx-right-arrow-alt'></i> Roman → Number</h2>
+      <input type="text" id="romanInput" placeholder="e.g. XIV"
+        class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl uppercase font-mono focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm tracking-widest" />
+      <button id="convertToNumberBtn"
+        class="w-full bg-blue-500 text-white font-semibold py-2 rounded-xl hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+        <i class='bx bx-transfer'></i> Convert
+      </button>
+      <button id="clearRomanBtn"
+        class="w-full bg-gray-200 text-gray-700 font-semibold py-2 rounded-xl hover:bg-gray-300 transition-colors flex items-center justify-center gap-2">
+        <i class='bx bx-x'></i> Clear
+      </button>
+      <div class="bg-blue-50 rounded-xl p-4 text-center">
+        <p class="text-xs text-gray-400 mb-1">Result</p>
+        <p id="romanToNumberResult" class="text-3xl font-bold text-blue-600">—</p>
+      </div>
+    </div>
+
+    <!-- Number → Roman -->
+    <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-4">
+      <h2 class="text-lg font-semibold text-green-600 flex items-center gap-2"><i class='bx bx-right-arrow-alt'></i> Number → Roman</h2>
+      <input type="number" id="numberInput" min="1" max="3999" placeholder="e.g. 2024"
+        class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-sm" />
+      <button id="convertToRomanBtn"
+        class="w-full bg-green-500 text-white font-semibold py-2 rounded-xl hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+        <i class='bx bx-transfer'></i> Convert
+      </button>
+      <button id="clearNumberBtn"
+        class="w-full bg-gray-200 text-gray-700 font-semibold py-2 rounded-xl hover:bg-gray-300 transition-colors flex items-center justify-center gap-2">
+        <i class='bx bx-x'></i> Clear
+      </button>
+      <div class="bg-green-50 rounded-xl p-4 text-center">
+        <p class="text-xs text-gray-400 mb-1">Result</p>
+        <p id="numberToRomanResult" class="text-3xl font-bold text-green-600">—</p>
+      </div>
+    </div>
+
+    <!-- Reference -->
+    <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-gray-700 flex items-center gap-2"><i class='bx bx-book-open text-gray-400'></i> Reference</h2>
+      <div class="grid grid-cols-2 gap-2 text-sm">
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">I</span><span class="font-semibold text-gray-800">1</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">V</span><span class="font-semibold text-gray-800">5</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">X</span><span class="font-semibold text-gray-800">10</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">L</span><span class="font-semibold text-gray-800">50</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">C</span><span class="font-semibold text-gray-800">100</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between"><span class="text-gray-500">D</span><span class="font-semibold text-gray-800">500</span></div>
+        <div class="bg-gray-50 rounded-lg p-2 flex justify-between col-span-2"><span class="text-gray-500">M</span><span class="font-semibold text-gray-800">1000</span></div>
+      </div>
+      <p class="text-xs text-gray-400 font-light">Range: 1 – 3999. Subtractive notation applies (e.g. IV = 4, IX = 9).</p>
+    </div>
+
+  </div>
+
+  <script>
+    var romanMap = { M:1000, CM:900, D:500, CD:400, C:100, XC:90, L:50, XL:40, X:10, IX:9, V:5, IV:4, I:1 };
+
+    function romanToNumber(roman) {
+      roman = roman.toUpperCase();
+      var i = 0, result = 0;
+      while (i < roman.length) {
+        var two = roman.substring(i, i + 2);
+        if (romanMap[two]) { result += romanMap[two]; i += 2; }
+        else if (romanMap[roman[i]]) { result += romanMap[roman[i]]; i++; }
+        else { return null; }
+      }
+      return result;
+    }
+
+    function numberToRoman(num) {
+      if (num < 1 || num > 3999) { return null; }
+      var result = "";
+      for (var key in romanMap) {
+        while (num >= romanMap[key]) { result += key; num -= romanMap[key]; }
+      }
+      return result;
+    }
+
+    document.getElementById("convertToNumberBtn").addEventListener("click", function() {
+      var val = document.getElementById("romanInput").value.trim();
+      var el  = document.getElementById("romanToNumberResult");
+      if (val === "") { el.textContent = "—"; return; }
+      var res = romanToNumber(val);
+      if (res === null) { el.textContent = "Invalid"; el.className = "text-3xl font-bold text-red-500"; }
+      else { el.textContent = res; el.className = "text-3xl font-bold text-blue-600"; }
+    });
+
+    document.getElementById("convertToRomanBtn").addEventListener("click", function() {
+      var val = parseInt(document.getElementById("numberInput").value);
+      var el  = document.getElementById("numberToRomanResult");
+      var res = numberToRoman(val);
+      if (res === null) { el.textContent = "Invalid (1–3999)"; el.className = "text-3xl font-bold text-red-500"; }
+      else { el.textContent = res; el.className = "text-3xl font-bold text-green-600"; }
+    });
+
+    document.getElementById("clearRomanBtn").addEventListener("click", function() {
+      document.getElementById("romanInput").value = "";
+      document.getElementById("romanToNumberResult").textContent = "—";
+      document.getElementById("romanToNumberResult").className = "text-3xl font-bold text-blue-600";
+    });
+
+    document.getElementById("clearNumberBtn").addEventListener("click", function() {
+      document.getElementById("numberInput").value = "";
+      document.getElementById("numberToRomanResult").textContent = "—";
+      document.getElementById("numberToRomanResult").className = "text-3xl font-bold text-green-600";
+    });
+
+    document.getElementById("romanInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { document.getElementById("convertToNumberBtn").click(); }
+    });
+    document.getElementById("numberInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { document.getElementById("convertToRomanBtn").click(); }
+    });
+  </script>
+
+</body>
+</html>

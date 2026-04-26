@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Small Projects</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <style>
+    * { font-family: 'Oswald', sans-serif; }
+    .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+  </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6 md:p-10">
+
+  <!-- Header -->
+  <div class="max-w-6xl mx-auto mb-10 text-center">
+    <p class="text-blue-500 font-medium tracking-widest text-sm uppercase mb-2">Vanilla Frontend</p>
+    <h1 class="text-5xl font-bold text-gray-800">Small Projects</h1>
+    <p class="text-gray-400 mt-2 text-lg font-light">A collection of interactive mini-tools built with HTML, Tailwind & Vanilla JS</p>
+  </div>
+
+  <!-- Grid -->
+  <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+    <a href="01.Direction-Indicator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-500 text-2xl">
+        <i class='bx bx-compass'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">01</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Direction Indicator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Hover over a compass grid to detect direction zones.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="02.Password-Generator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-500 text-2xl">
+        <i class='bx bx-lock-alt'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">02</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Password Generator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Generate secure passwords and PINs with custom options.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="03.Counter.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-500 text-2xl">
+        <i class='bx bx-text'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">03</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Text Analyzer</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Count words, characters, letters, numbers, and spaces.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="04.Roman-Numerals.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-500 text-2xl">
+        <i class='bx bx-font'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">04</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Roman Numerals</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Convert between Roman numerals and decimal numbers.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="06.Currency.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-500 text-2xl">
+        <i class='bx bx-dollar-circle'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">06</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Currency Converter</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Live exchange rates between world currencies.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="07.Measure-Converter.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-500 text-2xl">
+        <i class='bx bx-ruler'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">07</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Measure Converter</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Convert length, weight, temp, area, volume, speed & more.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="08.LED-Clock.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center text-yellow-400 text-2xl">
+        <i class='bx bx-time'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">08</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">LED Binary Clock</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">A live clock that displays time in binary using LED dots.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="09.Binary-Decimal-Hex.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-500 text-2xl">
+        <i class='bx bx-code-alt'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">09</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Binary / Decimal / Hex</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Convert between base 2, base 10, and base 16.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="10.Logic-Gate-Simulator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-500 text-2xl">
+        <i class='bx bx-chip'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">10</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Logic Gate Simulator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Toggle A & B inputs and see AND, OR, NOT, XOR and more.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="11.Lorem-Ipsum-Generator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-pink-500 text-2xl">
+        <i class='bx bx-paragraph'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">11</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Dummy Data Generator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Generate Lorem Ipsum, names, emails, phones, dates & colors.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="12.QR-Code-Generator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 text-2xl">
+        <i class='bx bx-qr'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">12</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">QR Code Generator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Generate and download QR codes for any text or URL.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="13.Age-Calculator.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-rose-500 text-2xl">
+        <i class='bx bx-calendar-heart'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">13</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Age Calculator</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Calculate exact age in years, months, weeks, days & hours.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+    <a href="14.JSON-Table-CSV-Converter.html" class="card-hover bg-white rounded-2xl shadow p-5 flex flex-col gap-3 group">
+      <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-500 text-2xl">
+        <i class='bx bx-table'></i>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest">14</p>
+        <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">JSON ↔ Table / CSV</h2>
+        <p class="text-sm text-gray-400 font-light mt-1">Convert JSON arrays to tables or CSV, and CSV back to JSON.</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 text-blue-500 text-sm font-medium">Open <i class='bx bx-right-arrow-alt'></i></div>
+    </a>
+
+  </div>
+
+  <!-- Footer -->
+  <p class="text-center text-gray-400 text-sm mt-12 font-light">Vanilla Frontend — Small Projects Collection</p>
+
+</body>
+</html>
