@@ -52,7 +52,7 @@
 
 <script setup>
 import { reactive } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
 
 const inputs = reactive({ A: 0, B: 0 })
 

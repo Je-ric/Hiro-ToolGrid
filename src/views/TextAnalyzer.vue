@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
 
 const text = ref('')
 

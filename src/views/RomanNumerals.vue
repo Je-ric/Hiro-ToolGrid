@@ -44,32 +44,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
+import { romanToNumber, numberToRoman, ROMAN_REFS } from '../utils/romanNumerals.js'
 
 const romanInput = ref(''), numberInput = ref('')
 const r2nResult = ref('—'), r2nError = ref(false)
 const n2rResult = ref('—'), n2rError = ref(false)
-
-const romanMap = { M:1000, CM:900, D:500, CD:400, C:100, XC:90, L:50, XL:40, X:10, IX:9, V:5, IV:4, I:1 }
-const refs = [['I',1],['V',5],['X',10],['L',50],['C',100],['D',500],['M',1000]]
-
-function romanToNumber(roman) {
-  roman = roman.toUpperCase(); let i = 0, result = 0
-  while (i < roman.length) {
-    const two = roman.substring(i, i+2)
-    if (romanMap[two]) { result += romanMap[two]; i += 2 }
-    else if (romanMap[roman[i]]) { result += romanMap[roman[i]]; i++ }
-    else return null
-  }
-  return result
-}
-
-function numberToRoman(num) {
-  if (num < 1 || num > 3999) return null
-  let result = ''
-  for (const key in romanMap) { while (num >= romanMap[key]) { result += key; num -= romanMap[key] } }
-  return result
-}
+const refs = ROMAN_REFS
 
 function convertToNumber() {
   const val = romanInput.value.trim()

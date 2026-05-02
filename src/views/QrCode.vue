@@ -42,7 +42,7 @@
           <button v-if="hasQR" @click="downloadQR" class="flex-1 bg-green-500 text-white font-semibold py-2 rounded hover:bg-green-600 transition-colors">Download</button>
           <button @click="clearQR" class="flex-1 bg-gray-300 text-gray-800 font-semibold py-2 rounded hover:bg-gray-400 transition-colors">Clear</button>
         </div>
-        <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-3 text-center text-red-600 font-medium text-sm">{{ error }}</div>
+        <ErrorBox :message="error" />
       </div>
 
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center gap-4">
@@ -72,7 +72,8 @@
 
 <script setup>
 import { ref, nextTick } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
+import ErrorBox from '../components/ui/ErrorBox.vue'
 
 const qrInput = ref(''), qrSize = ref('200'), qrLevel = ref('M')
 const darkColor = ref('#000000'), lightColor = ref('#ffffff')

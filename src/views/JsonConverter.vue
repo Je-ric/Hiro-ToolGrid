@@ -1,29 +1,25 @@
 <template>
   <ToolLayout title="JSON ↔ Table / CSV" subtitle="Convert JSON arrays to a table or CSV, and CSV back to JSON" max-w="max-w-4xl">
-    <div class="flex gap-2">
-      <button v-for="tab in modes" :key="tab.id" @click="switchMode(tab.id)"
-        :class="`px-4 py-2 rounded-full font-semibold text-sm ${currentMode === tab.id ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border hover:bg-gray-100'}`">
-        {{ tab.label }}
-      </button>
-    </div>
 
-    <div class="w-full max-w-4xl bg-white rounded-2xl shadow p-6 flex flex-col gap-4">
+    <TabBar :tabs="modes" :active="activeTab" @change="switchMode" />
+
+    <BentoCard cls="w-full max-w-4xl" gap="4" padding="6">
       <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold text-gray-700">{{ currentMode === 'csv2json' ? 'CSV Input' : 'JSON Input' }}</h2>
+        <h2 class="text-lg font-bold text-gray-700">{{ activeTab === 'csv2json' ? 'CSV Input' : 'JSON Input' }}</h2>
         <button @click="loadSample" class="text-sm text-blue-500 hover:text-blue-700 font-medium">Load Sample</button>
       </div>
       <textarea v-model="inputArea" :placeholder="inputPlaceholder"
         class="w-full h-48 p-3 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-mono"></textarea>
       <div class="flex gap-3">
-        <button @click="convert" class="flex-1 bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 transition-colors">Convert</button>
-        <button @click="copyOutput" class="flex-1 bg-green-500 text-white font-semibold py-2 rounded hover:bg-green-600 transition-colors">Copy Output</button>
-        <button @click="clearAll" class="flex-1 bg-gray-300 text-gray-800 font-semibold py-2 rounded hover:bg-gray-400 transition-colors">Clear</button>
+        <AppBtn @click="convert">Convert</AppBtn>
+        <AppBtn variant="green" icon="bx-copy" @click="copy(outputArea)">{{ copied ? 'Copied!' : 'Copy Output' }}</AppBtn>
+        <AppBtn variant="ghost" icon="bx-x" @click="clearAll">Clear</AppBtn>
       </div>
-      <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-3 text-red-600 font-medium text-sm">{{ error }}</div>
-    </div>
+      <ErrorBox :message="error" />
+    </BentoCard>
 
     <!-- Table output -->
-    <div v-if="tableData.rows.length" class="w-full max-w-4xl bg-white rounded-2xl shadow p-6 flex flex-col gap-3">
+    <BentoCard v-if="tableData.rows.length" cls="w-full max-w-4xl" gap="3" padding="6">
       <div class="flex justify-between items-center">
         <h2 class="text-lg font-bold text-gray-700">Table</h2>
         <span class="text-sm text-gray-400">{{ tableData.rows.length }} rows, {{ tableData.keys.length }} columns</span>
@@ -44,110 +40,71 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </BentoCard>
 
     <!-- Text output -->
-    <div v-if="outputArea" class="w-full max-w-4xl bg-white rounded-2xl shadow p-6 flex flex-col gap-3">
+    <BentoCard v-if="outputArea" cls="w-full max-w-4xl" gap="3" padding="6">
       <div class="flex justify-between items-center">
-        <h2 class="text-lg font-bold text-gray-700">{{ currentMode === 'json2csv' ? 'CSV Output' : 'JSON Output' }}</h2>
-        <button @click="downloadOutput" class="text-sm text-blue-500 hover:text-blue-700 font-medium">Download</button>
+        <h2 class="text-lg font-bold text-gray-700">{{ activeTab === 'json2csv' ? 'CSV Output' : 'JSON Output' }}</h2>
+        <button @click="download" class="text-sm text-blue-500 hover:text-blue-700 font-medium">Download</button>
       </div>
-      <textarea :value="outputArea" readonly class="w-full h-64 p-3 border border-gray-300 rounded resize-none focus:outline-none text-sm font-mono bg-gray-50"></textarea>
-      <p v-if="copied" class="text-green-600 text-sm font-medium text-center">Copied!</p>
-    </div>
+      <textarea :value="outputArea" readonly
+        class="w-full h-64 p-3 border border-gray-300 rounded resize-none focus:outline-none text-sm font-mono bg-gray-50"></textarea>
+    </BentoCard>
+
   </ToolLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout  from '../components/layouts/ToolLayout.vue'
+import BentoCard   from '../components/ui/BentoCard.vue'
+import AppBtn      from '../components/ui/AppBtn.vue'
+import TabBar      from '../components/ui/TabBar.vue'
+import ErrorBox    from '../components/ui/ErrorBox.vue'
+import { useClipboard } from '../composables/useClipboard.js'
+import { useTabBar }    from '../composables/useTabBar.js'
+import { getKeys, jsonToCSV, csvToJSON, downloadText } from '../utils/csvJson.js'
 
 const modes = [{ id:'json2table', label:'JSON → Table' }, { id:'json2csv', label:'JSON → CSV' }, { id:'csv2json', label:'CSV → JSON' }]
-const currentMode = ref('json2table')
-const inputArea = ref(''), outputArea = ref(''), error = ref(''), copied = ref(false)
+const { activeTab, setTab } = useTabBar(modes, 'json2table')
+const { copied, copy } = useClipboard()
+
+const inputArea = ref(''), outputArea = ref(''), error = ref('')
 const tableData = ref({ keys: [], rows: [] })
-const lastOutput = ref(''), lastExt = ref('txt')
+const lastExt = ref('txt')
 
-const sampleJSON = '[{"name":"Alice","age":25,"city":"Manila","role":"Developer"},{"name":"Bob","age":30,"city":"Cebu","role":"Designer"},{"name":"Carol","age":28,"city":"Davao","role":"Manager"}]'
-const sampleCSV  = 'name,age,city,role\nAlice,25,Manila,Developer\nBob,30,Cebu,Designer\nCarol,28,Davao,Manager'
+const SAMPLE_JSON = '[{"name":"Alice","age":25,"city":"Manila","role":"Developer"},{"name":"Bob","age":30,"city":"Cebu","role":"Designer"},{"name":"Carol","age":28,"city":"Davao","role":"Manager"}]'
+const SAMPLE_CSV  = 'name,age,city,role\nAlice,25,Manila,Developer\nBob,30,Cebu,Designer\nCarol,28,Davao,Manager'
 
-const inputPlaceholder = computed(() => currentMode.value === 'csv2json' ? 'Paste CSV here (first row = headers)' : 'Paste JSON array here, e.g. [{"name":"Alice","age":25}]')
+const inputPlaceholder = computed(() => activeTab.value === 'csv2json' ? 'Paste CSV here (first row = headers)' : 'Paste JSON array here, e.g. [{"name":"Alice","age":25}]')
 
-function switchMode(mode) { currentMode.value = mode; clearAll() }
-function loadSample() { inputArea.value = currentMode.value === 'csv2json' ? sampleCSV : sampleJSON }
-
-function getKeys(data) {
-  const keys = []
-  data.forEach(row => Object.keys(row).forEach(k => { if (!keys.includes(k)) keys.push(k) }))
-  return keys
-}
+function switchMode(id) { setTab(id); clearAll() }
+function loadSample()   { inputArea.value = activeTab.value === 'csv2json' ? SAMPLE_CSV : SAMPLE_JSON }
 
 function convert() {
   error.value = ''; tableData.value = { keys:[], rows:[] }; outputArea.value = ''
   if (!inputArea.value.trim()) { error.value = 'Please enter some input.'; return }
-  if (currentMode.value === 'json2table') json2table()
-  else if (currentMode.value === 'json2csv') json2csv()
-  else csv2json()
+  try {
+    if (activeTab.value === 'json2table') {
+      const data = JSON.parse(inputArea.value)
+      if (!Array.isArray(data) || !data.length) throw new Error('JSON must be a non-empty array of objects.')
+      tableData.value = { keys: getKeys(data), rows: data }
+    } else if (activeTab.value === 'json2csv') {
+      const data = JSON.parse(inputArea.value)
+      if (!Array.isArray(data) || !data.length) throw new Error('JSON must be a non-empty array of objects.')
+      outputArea.value = jsonToCSV(data); lastExt.value = 'csv'
+    } else {
+      const result = csvToJSON(inputArea.value)
+      outputArea.value = JSON.stringify(result, null, 2); lastExt.value = 'json'
+    }
+  } catch (e) { error.value = e.message }
 }
 
-function json2table() {
-  let data
-  try { data = JSON.parse(inputArea.value) } catch(e) { error.value = 'Invalid JSON: ' + e.message; return }
-  if (!Array.isArray(data) || !data.length) { error.value = 'JSON must be a non-empty array of objects.'; return }
-  tableData.value = { keys: getKeys(data), rows: data }
-}
-
-function json2csv() {
-  let data
-  try { data = JSON.parse(inputArea.value) } catch(e) { error.value = 'Invalid JSON: ' + e.message; return }
-  if (!Array.isArray(data) || !data.length) { error.value = 'JSON must be a non-empty array of objects.'; return }
-  const keys = getKeys(data)
-  let csv = keys.join(',') + '\n'
-  data.forEach(row => {
-    csv += keys.map(k => {
-      const v = row[k] == null ? '' : String(row[k])
-      return v.includes(',') || v.includes('"') || v.includes('\n') ? `"${v.replace(/"/g,'""')}"` : v
-    }).join(',') + '\n'
-  })
-  outputArea.value = csv; lastOutput.value = csv; lastExt.value = 'csv'
-}
-
-function parseCSVLine(line) {
-  const fields = []; let cur = '', inQ = false
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i]
-    if (inQ) { if (ch==='"' && line[i+1]==='"') { cur+='"'; i++ } else if (ch==='"') inQ=false; else cur+=ch }
-    else { if (ch==='"') inQ=true; else if (ch===',') { fields.push(cur.trim()); cur='' } else cur+=ch }
-  }
-  fields.push(cur.trim()); return fields
-}
-
-function csv2json() {
-  const lines = inputArea.value.split('\n').filter(l => l.trim())
-  if (lines.length < 2) { error.value = 'CSV must have at least a header row and one data row.'; return }
-  const headers = parseCSVLine(lines[0])
-  const result = lines.slice(1).map(line => {
-    const vals = parseCSVLine(line)
-    return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']))
-  })
-  const json = JSON.stringify(result, null, 2)
-  outputArea.value = json; lastOutput.value = json; lastExt.value = 'json'
-}
-
-function copyOutput() {
-  if (!outputArea.value) return
-  navigator.clipboard.writeText(outputArea.value)
-  copied.value = true; setTimeout(() => copied.value = false, 2000)
-}
-
-function downloadOutput() {
-  const blob = new Blob([lastOutput.value], { type:'text/plain' })
-  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `output.${lastExt.value}` })
-  a.click(); URL.revokeObjectURL(a.href)
-}
+function download() { downloadText(outputArea.value, `output.${lastExt.value}`) }
 
 function clearAll() {
   inputArea.value = ''; outputArea.value = ''; error.value = ''
-  tableData.value = { keys:[], rows:[] }; copied.value = false; lastOutput.value = ''
+  tableData.value = { keys:[], rows:[] }
 }
 </script>

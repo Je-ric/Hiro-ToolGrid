@@ -88,7 +88,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import ToolLayout from '../components/ToolLayout.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
 
 const bitWeights = [8, 4, 2, 1]
 const digits = ref([0,0,0,0,0,0])
