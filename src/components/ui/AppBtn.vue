@@ -1,6 +1,6 @@
 <template>
   <button @click="$emit('click')" :type="type" :disabled="disabled"
-    :class="[base, variants[variant], disabled ? 'opacity-50 cursor-not-allowed' : '']">
+    :class="[base, variants[variant], disabled ? 'opacity-50 cursor-not-allowed' : '', cls]">
     <i v-if="icon" :class="`bx ${icon}`"></i>
     <slot />
   </button>
@@ -13,6 +13,7 @@ defineProps({
   icon:     { type: String, default: '' },
   type:     { type: String, default: 'button' },
   disabled: { type: Boolean, default: false },
+  cls:      { type: String, default: '' },
 })
 
 const base = 'flex-1 flex items-center justify-center gap-2 font-semibold py-2 rounded-xl transition-colors text-sm'
