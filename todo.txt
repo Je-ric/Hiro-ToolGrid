@@ -1,8 +1,0 @@
-1. Create index, so that all of this htmls have a parent.
-2. Make sure all of their UIs/UX are similar, in terms of colors, shapes, responsiveness, layouts.
-3. I want to make this use OSWALD font.
-4. Use boxicons for icons
-5. Make sure titles are visible.
-6. Its idiot-free, means user-friendly. 
-7. Use dynamic layouts/placements. Like bento grid, or the legends are in the sides, or the guides are in the sides. The outputs are centered.
-For example in logic gate, the inputs card should be centered while the visuals are all over the sides. because it has unused spaces. My point is its all top to bottom, it makes it borring to use. Make sure to apply it to all.
