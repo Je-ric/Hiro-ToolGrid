@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Markdown Previewer" subtitle="Write Markdown on the left, see the live preview on the right.">
-    <div class="w-full max-w-6xl flex flex-col gap-4">
+    <div class="w-full flex flex-col gap-4">
 
       <!-- Toolbar -->
       <div class="flex flex-wrap gap-2 items-center">

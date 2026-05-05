@@ -1,6 +1,6 @@
 <template>
-  <ToolLayout title="SQL Formatter" subtitle="Paste messy SQL and get clean, readable, formatted output." max-w="max-w-6xl">
-    <div class="w-full max-w-6xl flex flex-col gap-5">
+  <ToolLayout title="SQL Formatter" subtitle="Paste messy SQL and get clean, readable, formatted output.">
+    <div class="w-full flex flex-col gap-5">
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <BentoCard>

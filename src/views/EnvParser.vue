@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title=".env Parser" subtitle="Convert .env files to JSON and back. Useful for config management and debugging.">
-    <div class="w-full max-w-5xl flex flex-col gap-5">
+    <div class="w-full flex flex-col gap-5">
 
       <TabBar :tabs="tabs" :active="activeTab" @change="activeTab = $event; reset()" />
 

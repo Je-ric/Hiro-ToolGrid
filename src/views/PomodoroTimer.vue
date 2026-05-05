@@ -1,6 +1,6 @@
 <template>
-  <ToolLayout title="Pomodoro Timer" subtitle="Focus deeply. Break intentionally. Track every session." max-w="max-w-5xl">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+  <ToolLayout title="Pomodoro Timer" subtitle="Focus deeply. Break intentionally. Track every session.">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
 
       <!-- Timer center -->
       <div class="lg:col-span-2 flex flex-col gap-5">

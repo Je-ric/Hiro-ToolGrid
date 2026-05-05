@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Wheel Randomizer" subtitle="Add names or options, set weights, and spin the wheel to pick a random winner.">
-    <div class="w-full max-w-5xl flex flex-col gap-5">
+    <div class="w-full flex flex-col gap-5">
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 

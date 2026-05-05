@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="QR Code Generator" subtitle="Generate and download QR codes for any text, URL, or data">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
       <div class="bg-white rounded-2xl shadow p-6 flex flex-col gap-4">
         <div class="flex flex-col gap-1">
           <label class="font-medium text-gray-700">Text or URL</label>
@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div class="w-full max-w-5xl bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
+    <div class="w-full bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
       <h2 class="text-lg font-bold text-gray-700">Quick Presets</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
         <button v-for="p in presets" :key="p.type" @click="qrInput = p.value"

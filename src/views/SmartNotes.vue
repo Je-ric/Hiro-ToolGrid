@@ -1,6 +1,6 @@
 <template>
-  <ToolLayout title="Smart Notes" subtitle="Offline notepad — notes are saved automatically in your browser." max-w="max-w-6xl">
-    <div class="w-full max-w-6xl flex flex-col gap-5">
+  <ToolLayout title="Smart Notes" subtitle="Offline notepad — notes are saved automatically in your browser.">
+    <div class="w-full flex flex-col gap-5">
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 

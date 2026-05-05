@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Roman Numerals Converter" subtitle="Convert between Roman numerals and decimal numbers">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5">
 
       <!-- Roman → Number -->
       <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-4">

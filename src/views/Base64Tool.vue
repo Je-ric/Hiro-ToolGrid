@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Base64 Encoder / Decoder" subtitle="Encode text or images to Base64, or decode Base64 back to text.">
-    <div class="w-full max-w-5xl flex flex-col gap-5">
+    <div class="w-full flex flex-col gap-5">
 
       <TabBar :tabs="tabs" :active="activeTab" @change="activeTab = $event; reset()" />
 

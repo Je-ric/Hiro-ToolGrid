@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="JWT Decoder" subtitle="Paste a JWT token to decode its header and payload. Highlights expiration status.">
-    <div class="w-full max-w-5xl flex flex-col gap-5">
+    <div class="w-full flex flex-col gap-5">
 
       <BentoCard>
         <CardHeader icon="bx-lock-open">JWT Token Input</CardHeader>

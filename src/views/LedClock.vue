@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="LED Binary Clock" subtitle="Each column of LEDs represents a digit in binary">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
 
       <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
         <h2 class="text-lg font-semibold text-gray-700 flex items-center gap-2"><i class="bx bx-info-circle text-yellow-500"></i> Columns</h2>

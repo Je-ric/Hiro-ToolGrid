@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Currency Converter" subtitle="Live exchange rates powered by ExchangeRate-API">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5">
 
       <!-- Quick rates -->
       <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-3">

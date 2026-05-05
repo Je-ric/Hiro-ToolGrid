@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Text Analyzer" subtitle="Type or paste text to analyze it in real time">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5">
       <div class="lg:col-span-2 bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
         <h2 class="text-lg font-semibold text-gray-700 flex items-center gap-2"><i class="bx bx-edit text-blue-500"></i> Input</h2>
         <textarea v-model="text" placeholder="Type or paste your text here..."
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full max-w-5xl grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="bg-white rounded-2xl shadow p-4 text-center"><p class="text-2xl font-bold text-teal-500">{{ stats.sentences }}</p><p class="text-sm text-gray-400 font-light mt-1">Sentences</p></div>
       <div class="bg-white rounded-2xl shadow p-4 text-center"><p class="text-2xl font-bold text-pink-500">{{ stats.paragraphs }}</p><p class="text-sm text-gray-400 font-light mt-1">Paragraphs</p></div>
       <div class="bg-white rounded-2xl shadow p-4 text-center"><p class="text-2xl font-bold text-indigo-500">{{ stats.avgWord }}</p><p class="text-sm text-gray-400 font-light mt-1">Avg Word Length</p></div>

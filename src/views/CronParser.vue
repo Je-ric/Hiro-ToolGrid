@@ -1,6 +1,6 @@
 <template>
   <ToolLayout title="Cron Expression Parser" subtitle="Enter a cron expression to get a human-readable description and next run times.">
-    <div class="w-full max-w-5xl flex flex-col gap-5">
+    <div class="w-full flex flex-col gap-5">
 
       <BentoCard>
         <CardHeader icon="bx-time-five">Cron Expression</CardHeader>

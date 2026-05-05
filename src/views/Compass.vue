@@ -1,6 +1,6 @@
 <template>
-  <ToolLayout title="Compass" subtitle="Degree calculator, rotation mode, and directional arrow display" max-w="max-w-5xl">
-    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+  <ToolLayout title="Compass" subtitle="Degree calculator, rotation mode, and directional arrow display">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
 
       <!-- Controls -->
       <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-4">

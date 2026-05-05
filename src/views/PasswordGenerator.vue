@@ -1,7 +1,7 @@
 <template>
   <ToolLayout title="Password Generator" subtitle="Generate secure passwords and PINs with custom options">
 
-    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-5">
       <BentoCard>
         <CardHeader icon="bx-slider">Options</CardHeader>
         <div class="flex flex-col gap-1">
@@ -34,7 +34,7 @@
       </BentoCard>
     </div>
 
-    <div class="w-full max-w-5xl">
+    <div class="w-full">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">PIN Generator</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <BentoCard>
