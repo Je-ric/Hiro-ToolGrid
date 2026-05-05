@@ -1,67 +1,84 @@
 <template>
-  <ToolLayout title="Case Converter & Formatter" subtitle="Transform, format, and convert text in one click" max-w="max-w-4xl">
-    <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+  <ToolLayout title="Case Converter & Formatter" subtitle="Transform, format, and convert text in one click">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
       <!-- Input -->
-      <div class="lg:col-span-2 bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
+      <BentoCard cls="lg:col-span-2" :emphasis="true">
         <CardHeader icon="bx-edit">Input</CardHeader>
         <textarea v-model="input" placeholder="Type or paste your text here..."
-          class="w-full flex-1 min-h-48 p-3 bg-gray-50 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm text-gray-700 font-mono"></textarea>
-        <div class="flex items-center justify-between text-xs text-gray-400">
-          <span>{{ wordCount }} words · {{ input.length }} chars</span>
-          <button @click="input = ''" class="flex items-center gap-1 hover:text-red-400 transition-colors"><i class="bx bx-x"></i> Clear</button>
+          class="tg-input tg-input-mono w-full min-h-48 resize-none text-sm leading-relaxed"></textarea>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400">{{ wordCount }} words · {{ input.length }} chars</span>
+          <AppBtn variant="ghost" icon="bx-x" size="sm" @click="input = ''">Clear</AppBtn>
         </div>
-      </div>
+      </BentoCard>
 
       <!-- Quick transforms -->
-      <div class="bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
+      <BentoCard>
         <CardHeader icon="bx-transfer-alt">Quick Apply</CardHeader>
-        <div class="flex flex-col gap-2">
-          <button v-for="t in TRANSFORMS" :key="t.id" @click="applyTransform(t.fn)"
-            class="w-full text-left px-3 py-2 rounded-xl bg-gray-50 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium text-gray-700 transition-colors flex items-center justify-between group">
+        <div class="flex flex-col gap-1.5">
+          <button v-for="t in TRANSFORMS" :key="t.id" @click="applyTransform(t.fn, t.label)"
+            :class="['w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between group border',
+              activeLabel === t.label
+                ? 'bg-cyan-500 text-white border-cyan-400'
+                : 'bg-cyan-50 border-cyan-100 text-slate-600 hover:bg-cyan-100 hover:border-cyan-300']">
             <span>{{ t.label }}</span>
-            <i class="bx bx-right-arrow-alt text-gray-300 group-hover:text-blue-400"></i>
+            <i class="bx bx-right-arrow-alt text-sm opacity-50 group-hover:opacity-100"></i>
           </button>
         </div>
-      </div>
+      </BentoCard>
     </div>
 
     <!-- Output -->
-    <div v-if="output" class="w-full max-w-4xl bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
-      <div class="flex items-center justify-between">
-        <CardHeader icon="bx-check-circle" icon-color="text-green-500">Output — <span class="text-gray-400 font-normal text-sm ml-1">{{ activeLabel }}</span></CardHeader>
-        <AppBtn variant="green" icon="bx-copy" cls="w-auto px-4" @click="copy(output)">{{ copied ? 'Copied!' : 'Copy' }}</AppBtn>
+    <BentoCard v-if="output" :emphasis="true">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <CardHeader icon="bx-check-circle" icon-color="text-teal-500">
+          Output — <span class="text-slate-400 font-normal normal-case ml-1">{{ activeLabel }}</span>
+        </CardHeader>
+        <div class="flex gap-2">
+          <AppBtn variant="copy" icon="bx-copy" size="sm" @click="copy(output)">{{ copied ? 'Copied!' : 'Copy' }}</AppBtn>
+          <AppBtn variant="ghost" icon="bx-transfer" size="sm" @click="input = output; output = ''">Use as Input</AppBtn>
+        </div>
       </div>
-      <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 font-mono whitespace-pre-wrap break-all min-h-16">{{ output }}</div>
-      <div class="flex items-center justify-between text-xs text-gray-400">
-        <span>{{ outputWordCount }} words · {{ output.length }} chars</span>
-        <button @click="input = output; output = ''" class="flex items-center gap-1 hover:text-blue-500 transition-colors"><i class="bx bx-transfer"></i> Use as input</button>
-      </div>
-    </div>
+      <div class="tg-input tg-input-mono text-sm text-slate-700 whitespace-pre-wrap break-all min-h-12 bg-cyan-50/50">{{ output }}</div>
+      <span class="text-xs text-slate-400">{{ outputWordCount }} words · {{ output.length }} chars</span>
+    </BentoCard>
 
     <!-- All transforms preview -->
-    <div class="w-full max-w-4xl bg-white rounded-2xl shadow p-5 flex flex-col gap-3">
+    <BentoCard>
       <CardHeader icon="bx-grid-alt">All Transforms Preview</CardHeader>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         <div v-for="t in TRANSFORMS" :key="t.id"
-          class="bg-gray-50 rounded-xl p-3 cursor-pointer hover:bg-blue-50 hover:border-blue-200 border border-transparent transition-all group"
+          class="p-3 rounded-xl border border-cyan-100 bg-cyan-50/40 cursor-pointer hover:bg-cyan-100 hover:border-cyan-300 transition-all group"
           @click="applyTransform(t.fn, t.label)">
-          <p class="text-xs text-gray-400 mb-1 font-medium">{{ t.label }}</p>
-          <p class="text-sm text-gray-700 font-mono truncate group-hover:text-blue-700">
+          <p class="text-[10px] text-slate-400 mb-1 font-semibold uppercase tracking-wider">{{ t.label }}</p>
+          <p class="text-xs text-slate-600 font-mono truncate group-hover:text-cyan-700">
             {{ input ? t.fn(input) : '—' }}
           </p>
         </div>
       </div>
-    </div>
+    </BentoCard>
 
+    <template #legend>
+      <div class="flex flex-col gap-1.5 text-xs text-slate-500">
+        <div v-for="t in TRANSFORMS" :key="t.id" class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 shrink-0"></span>
+          <span class="font-medium text-slate-600">{{ t.label }}</span>
+        </div>
+        <div class="tg-divider"></div>
+        <p class="text-[10px] text-slate-400">Click any transform card to apply it instantly.</p>
+      </div>
+    </template>
   </ToolLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import ToolLayout  from '../components/layouts/ToolLayout.vue'
-import CardHeader  from '../components/ui/CardHeader.vue'
-import AppBtn      from '../components/ui/AppBtn.vue'
+import ToolLayout from '../components/layouts/ToolLayout.vue'
+import BentoCard  from '../components/ui/BentoCard.vue'
+import CardHeader from '../components/ui/CardHeader.vue'
+import AppBtn     from '../components/ui/AppBtn.vue'
 import { useClipboard } from '../composables/useClipboard.js'
 import { TRANSFORMS, countWords } from '../utils/caseConverter.js'
 

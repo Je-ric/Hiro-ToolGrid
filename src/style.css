@@ -1,1 +1,182 @@
-* { font-family: 'Oswald', sans-serif; }
+/* ── Fonts ─────────────────────────────────────────────────────────────────── */
+body, button, input, select, textarea {
+  font-family: 'Inter', 'Oswald', sans-serif;
+}
+.font-mono, code, pre, .font-code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+h1, h2, h3 {
+  font-family: 'Oswald', 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ── Cyan Analogous Palette ────────────────────────────────────────────────── */
+/* Primary:   cyan-500  #06b6d4  */
+/* Analogous: teal-500  #14b8a6  (warm side) */
+/* Analogous: sky-500   #0ea5e9  (cool side) */
+/* Accent:    cyan-600  #0891b2  (darker)    */
+/* Muted:     cyan-50   #ecfeff  (bg tint)   */
+
+:root {
+  --c-primary:     #06b6d4;
+  --c-primary-dk:  #0891b2;
+  --c-primary-lt:  #cffafe;
+  --c-teal:        #14b8a6;
+  --c-teal-lt:     #ccfbf1;
+  --c-sky:         #0ea5e9;
+  --c-sky-lt:      #e0f2fe;
+  --c-bg:          #f0fdff;
+  --c-surface:     #ffffff;
+  --c-border:      #a5f3fc;
+  --c-border-soft: #e0f7fa;
+  --c-text:        #0f172a;
+  --c-muted:       #64748b;
+  --c-focus:       #06b6d4;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #a5f3fc; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+* { scrollbar-width: thin; scrollbar-color: #a5f3fc transparent; }
+
+/* ── Focus ring ────────────────────────────────────────────────────────────── */
+input:focus, textarea:focus, select:focus, button:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+/* ── Card ──────────────────────────────────────────────────────────────────── */
+.tg-card {
+  background: #ffffff;
+  border: 1px solid #cffafe;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(6,182,212,0.07), 0 4px 16px rgba(6,182,212,0.04);
+}
+
+.tg-card-emphasis {
+  background: #ffffff;
+  border: 1.5px solid #a5f3fc;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(6,182,212,0.12), 0 8px 24px rgba(6,182,212,0.06);
+}
+
+/* ── Legend panel ──────────────────────────────────────────────────────────── */
+.tg-legend {
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+/* ── Input ─────────────────────────────────────────────────────────────────── */
+.tg-input {
+  background: #f0fdff;
+  border: 1px solid #a5f3fc;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.tg-input:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6,182,212,0.15);
+  outline: none;
+}
+.tg-input-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+.tg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.625rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  white-space: nowrap;
+  line-height: 1;
+}
+.tg-btn:active { transform: scale(0.97); }
+.tg-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.tg-btn-primary  { background: #06b6d4; color: #fff; }
+.tg-btn-primary:hover:not(:disabled)  { background: #0891b2; box-shadow: 0 2px 8px rgba(6,182,212,0.35); }
+
+.tg-btn-copy     { background: #14b8a6; color: #fff; }
+.tg-btn-copy:hover:not(:disabled)     { background: #0d9488; box-shadow: 0 2px 8px rgba(20,184,166,0.35); }
+
+.tg-btn-download { background: #0ea5e9; color: #fff; }
+.tg-btn-download:hover:not(:disabled) { background: #0284c7; box-shadow: 0 2px 8px rgba(14,165,233,0.35); }
+
+.tg-btn-ghost    { background: #f0fdff; color: #0891b2; border: 1px solid #a5f3fc; }
+.tg-btn-ghost:hover:not(:disabled)    { background: #cffafe; }
+
+.tg-btn-danger   { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+.tg-btn-danger:hover:not(:disabled)   { background: #fecaca; }
+
+.tg-btn-secondary { background: #f0fdff; color: #0f172a; border: 1px solid #a5f3fc; }
+.tg-btn-secondary:hover:not(:disabled) { background: #cffafe; }
+
+/* ── Stat tile ─────────────────────────────────────────────────────────────── */
+.tg-stat {
+  background: #f0fdff;
+  border: 1px solid #cffafe;
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  text-align: center;
+}
+
+/* ── Code block ────────────────────────────────────────────────────────────── */
+.tg-code {
+  background: #0f172a;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  overflow: auto;
+  color: #e2e8f0;
+}
+
+/* ── Result box ────────────────────────────────────────────────────────────── */
+.tg-result {
+  background: #ecfeff;
+  border: 1.5px solid #a5f3fc;
+  border-radius: 0.875rem;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 700;
+  color: #0891b2;
+}
+
+/* ── Section divider ───────────────────────────────────────────────────────── */
+.tg-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a5f3fc, transparent);
+  margin: 0.5rem 0;
+}
+
+/* ── Scrollbar hide utility ────────────────────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Transition ────────────────────────────────────────────────────────────── */
+.tg-transition { transition: all 0.15s ease; }

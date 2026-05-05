@@ -1,13 +1,15 @@
 <template>
-  <div :class="`bg-white rounded-2xl shadow p-${padding} flex flex-col gap-${gap} ${cls}`">
+  <div :class="['tg-card p-5 flex flex-col', emphasis ? 'tg-card-emphasis' : '', gapClass, cls]">
     <slot />
   </div>
 </template>
 
 <script setup>
-defineProps({
-  padding: { type: String, default: '5' },
-  gap:     { type: String, default: '4' },
-  cls:     { type: String, default: '' },
+import { computed } from 'vue'
+const props = defineProps({
+  gap:      { type: String, default: '4' },
+  cls:      { type: String, default: '' },
+  emphasis: { type: Boolean, default: false },
 })
+const gapClass = computed(() => `gap-${props.gap}`)
 </script>

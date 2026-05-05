@@ -1,29 +1,39 @@
 <template>
-  <button @click="$emit('click')" :type="type" :disabled="disabled"
-    :class="[base, variants[variant], disabled ? 'opacity-50 cursor-not-allowed' : '', cls]">
-    <i v-if="icon" :class="`bx ${icon}`"></i>
+  <button
+    @click="$emit('click')"
+    :type="type"
+    :disabled="disabled"
+    :class="['tg-btn', variantClass, sizeClass, cls]"
+  >
+    <i v-if="icon" :class="`bx ${icon} text-sm`"></i>
     <slot />
   </button>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 defineEmits(['click'])
-defineProps({
+const props = defineProps({
   variant:  { type: String, default: 'primary' },
   icon:     { type: String, default: '' },
   type:     { type: String, default: 'button' },
   disabled: { type: Boolean, default: false },
+  size:     { type: String, default: 'md' },
   cls:      { type: String, default: '' },
 })
 
-const base = 'flex-1 flex items-center justify-center gap-2 font-semibold py-2 rounded-xl transition-colors text-sm'
+const variantClass = computed(() => ({
+  primary:   'tg-btn-primary',
+  copy:      'tg-btn-copy',
+  download:  'tg-btn-download',
+  ghost:     'tg-btn-ghost',
+  secondary: 'tg-btn-secondary',
+  danger:    'tg-btn-danger',
+  // legacy aliases
+  green:     'tg-btn-copy',
+  purple:    'tg-btn-primary',
+  blue:      'tg-btn-primary',
+}[props.variant] || 'tg-btn-primary'))
 
-const variants = {
-  primary:   'bg-blue-500 text-white hover:bg-blue-600',
-  secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
-  danger:    'bg-red-500 text-white hover:bg-red-600',
-  ghost:     'bg-gray-300 text-gray-800 hover:bg-gray-400',
-  green:     'bg-green-500 text-white hover:bg-green-600',
-  purple:    'bg-purple-500 text-white hover:bg-purple-600',
-}
+const sizeClass = computed(() => props.size === 'sm' ? 'px-3 py-1.5 text-xs' : props.size === 'lg' ? 'px-5 py-2.5 text-sm' : '')
 </script>

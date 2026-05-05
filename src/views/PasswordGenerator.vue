@@ -1,60 +1,63 @@
 <template>
   <ToolLayout title="Password Generator" subtitle="Generate secure passwords and PINs with custom options">
 
-    <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-5">
-      <BentoCard>
-        <CardHeader icon="bx-slider">Options</CardHeader>
-        <div class="flex flex-col gap-1">
-          <label class="text-sm text-gray-500">Length: <span class="font-semibold text-gray-800">{{ length }}</span></label>
-          <input type="range" v-model="length" min="4" max="32" class="w-full accent-blue-500" />
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <!-- Options -->
+      <BentoCard :emphasis="true">
+        <CardHeader icon="bx-slider">Password Options</CardHeader>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Length: <span class="text-cyan-600">{{ length }}</span></label>
+          <input type="range" v-model="length" min="4" max="64" class="w-full accent-cyan-500" />
         </div>
-        <div class="grid grid-cols-2 gap-2 text-sm">
-          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" v-model="useUpper"   class="accent-blue-500 w-4 h-4" /> Uppercase</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" v-model="useLower"   class="accent-blue-500 w-4 h-4" /> Lowercase</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" v-model="useNumbers" class="accent-blue-500 w-4 h-4" /> Numbers</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" v-model="useSymbols" class="accent-blue-500 w-4 h-4" /> Symbols</label>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600 p-2 rounded-lg border border-cyan-100 bg-cyan-50/50 hover:bg-cyan-100 transition-colors">
+            <input type="checkbox" v-model="useUpper"   class="accent-cyan-500 w-4 h-4" /> A–Z
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600 p-2 rounded-lg border border-cyan-100 bg-cyan-50/50 hover:bg-cyan-100 transition-colors">
+            <input type="checkbox" v-model="useLower"   class="accent-cyan-500 w-4 h-4" /> a–z
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600 p-2 rounded-lg border border-cyan-100 bg-cyan-50/50 hover:bg-cyan-100 transition-colors">
+            <input type="checkbox" v-model="useNumbers" class="accent-cyan-500 w-4 h-4" /> 0–9
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600 p-2 rounded-lg border border-cyan-100 bg-cyan-50/50 hover:bg-cyan-100 transition-colors">
+            <input type="checkbox" v-model="useSymbols" class="accent-cyan-500 w-4 h-4" /> !@#…
+          </label>
+        </div>
+        <div class="flex flex-col gap-2">
+          <AppBtn @click="generate" icon="bx-refresh" cls="w-full">Generate</AppBtn>
+          <AppBtn variant="ghost" icon="bx-x" @click="clearPassword" cls="w-full">Clear</AppBtn>
         </div>
       </BentoCard>
 
-      <BentoCard>
-        <CardHeader icon="bx-key">Password</CardHeader>
+      <!-- Result -->
+      <BentoCard cls="lg:col-span-2">
+        <CardHeader icon="bx-key">Generated Password</CardHeader>
         <input type="text" :value="password" readonly placeholder="Click Generate"
-          class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-mono text-sm focus:outline-none tracking-widest" />
-        <div class="w-full h-2 bg-gray-200 rounded-full">
-          <div :style="{ width: strength.width, backgroundColor: strength.color }" class="h-full rounded-full transition-all duration-300"></div>
-        </div>
-        <p class="text-sm text-gray-500">Strength: <span :style="{ color: strength.color }" class="font-semibold">{{ strength.label }}</span></p>
-      </BentoCard>
-
-      <BentoCard cls="justify-center" gap="3">
-        <CardHeader icon="bx-bolt-circle">Actions</CardHeader>
-        <AppBtn @click="generate" icon="bx-refresh">Generate</AppBtn>
-        <AppBtn variant="green" icon="bx-copy" @click="copy(password)">{{ copied ? 'Copied!' : 'Copy' }}</AppBtn>
-        <AppBtn variant="ghost" icon="bx-x" @click="clearPassword">Clear</AppBtn>
-      </BentoCard>
-    </div>
-
-    <div class="w-full">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">PIN Generator</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <BentoCard>
-          <CardHeader icon="bx-slider" icon-color="text-purple-500">Options</CardHeader>
-          <div class="flex flex-col gap-1">
-            <label class="text-sm text-gray-500">Length: <span class="font-semibold text-gray-800">{{ pinLength }}</span></label>
-            <input type="range" v-model="pinLength" min="3" max="12" class="w-full accent-purple-500" />
+          class="tg-input tg-input-mono text-base tracking-widest" />
+        <div class="flex flex-col gap-1">
+          <div class="flex justify-between text-xs text-slate-400">
+            <span>Strength</span>
+            <span :style="{ color: strength.color }" class="font-semibold">{{ strength.label }}</span>
           </div>
-        </BentoCard>
-        <BentoCard>
-          <CardHeader icon="bx-hash" icon-color="text-purple-500">PIN</CardHeader>
-          <input type="text" :value="pin" readonly placeholder="Click Generate PIN"
-            class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-mono text-sm focus:outline-none tracking-widest" />
-        </BentoCard>
-        <BentoCard cls="justify-center" gap="3">
-          <CardHeader icon="bx-bolt-circle" icon-color="text-purple-500">Actions</CardHeader>
-          <AppBtn variant="purple" icon="bx-refresh" @click="makePin">Generate PIN</AppBtn>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div :style="{ width: strength.width, backgroundColor: strength.color }" class="h-full rounded-full transition-all duration-500"></div>
+          </div>
+        </div>
+        <AppBtn variant="copy" icon="bx-copy" cls="w-full" @click="copy(password)">{{ copied ? 'Copied!' : 'Copy Password' }}</AppBtn>
+
+        <div class="tg-divider"></div>
+        <CardHeader icon="bx-hash" icon-color="text-teal-500">PIN Generator</CardHeader>
+        <div class="flex items-center gap-3">
+          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider shrink-0">Length: <span class="text-teal-500">{{ pinLength }}</span></label>
+          <input type="range" v-model="pinLength" min="3" max="12" class="flex-1 accent-teal-500" />
+        </div>
+        <input type="text" :value="pin" readonly placeholder="Click Generate PIN"
+          class="tg-input tg-input-mono text-xl tracking-[0.3em] text-center" />
+        <div class="flex gap-2">
+          <AppBtn variant="secondary" icon="bx-refresh" @click="makePin" cls="flex-1">Generate PIN</AppBtn>
           <AppBtn variant="ghost" icon="bx-x" @click="pin = ''">Clear</AppBtn>
-        </BentoCard>
-      </div>
+        </div>
+      </BentoCard>
     </div>
 
   </ToolLayout>

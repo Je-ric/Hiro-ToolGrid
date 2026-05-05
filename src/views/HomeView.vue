@@ -2,60 +2,70 @@
   <div class="min-h-screen bg-gray-100 flex flex-col">
 
     <!-- Header -->
-    <header class="bg-white border-b border-gray-200 px-6 py-5">
+    <header class="bg-white border-b border-cyan-100 shadow-sm px-6 py-4">
       <div class="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 tracking-tight">ToolGrid</h1>
-          <p class="text-gray-400 text-sm mt-0.5">{{ tools.length }} interactive tools — all in your browser</p>
+          <h1 class="text-2xl font-bold text-slate-800 tracking-tight" style="font-family:'Oswald',sans-serif">
+            Tool<span class="text-cyan-500">Grid</span>
+          </h1>
+          <p class="text-xs text-slate-400 mt-0.5">{{ tools.length }} tools — all in your browser, no backend</p>
         </div>
-        <input v-model="search" placeholder="Search tools..."
-          class="w-64 px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 transition" />
+        <div class="relative">
+          <i class="bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input v-model="search" placeholder="Search tools..."
+            class="tg-input pl-8 w-56 sm:w-72" />
+        </div>
       </div>
     </header>
 
     <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
 
       <!-- Sidebar -->
-      <aside class="hidden md:flex flex-col gap-1 w-52 shrink-0 p-4 pt-6">
+      <aside class="hidden md:flex flex-col gap-0.5 w-52 shrink-0 p-4 pt-6">
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-3 mb-2">Categories</p>
         <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id"
-          :class="['flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left w-full',
+          :class="['flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all text-left w-full',
             activeCat === cat.id
-              ? 'bg-blue-500 text-white shadow-sm'
-              : 'text-gray-600 hover:bg-white hover:text-gray-900']">
+              ? 'bg-cyan-500 text-white shadow-sm'
+              : 'text-slate-500 hover:bg-cyan-50 hover:text-cyan-700']">
           <i :class="`bx ${cat.icon} text-base`"></i>
-          <span>{{ cat.label }}</span>
-          <span :class="['ml-auto text-xs font-semibold px-1.5 py-0.5 rounded-full',
-            activeCat === cat.id ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-500']">
+          <span class="flex-1 truncate">{{ cat.label }}</span>
+          <span :class="['text-[10px] font-bold px-1.5 py-0.5 rounded-full',
+            activeCat === cat.id ? 'bg-cyan-400 text-white' : 'bg-slate-100 text-slate-400']">
             {{ cat.id === 'all' ? tools.length : tools.filter(t => t.category === cat.id).length }}
           </span>
         </button>
       </aside>
 
-      <!-- Mobile category bar -->
-      <div class="md:hidden flex gap-2 overflow-x-auto px-4 pt-4 pb-0 scrollbar-hide w-full">
-        <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id"
-          :class="['flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors shrink-0',
-            activeCat === cat.id ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border border-gray-200']">
-          <i :class="`bx ${cat.icon}`"></i>
-          {{ cat.label }}
-        </button>
+      <!-- Mobile pill bar -->
+      <div class="md:hidden flex gap-2 overflow-x-auto px-4 pt-4 scrollbar-hide w-full absolute">
       </div>
 
-      <!-- Main content -->
+      <!-- Main -->
       <main class="flex-1 p-4 md:p-6 min-w-0">
 
-        <!-- Filtered / searched: flat grid -->
+        <!-- Mobile category pills -->
+        <div class="md:hidden flex gap-2 overflow-x-auto scrollbar-hide mb-4 -mx-1 px-1">
+          <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id"
+            :class="['flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-all',
+              activeCat === cat.id ? 'bg-cyan-500 text-white' : 'bg-white text-slate-500 border border-cyan-100 hover:border-cyan-300']">
+            <i :class="`bx ${cat.icon} text-xs`"></i>{{ cat.label }}
+          </button>
+        </div>
+
+        <!-- Filtered / searched -->
         <template v-if="search || activeCat !== 'all'">
-          <div class="mb-4 flex items-center gap-2">
-            <h2 class="text-lg font-bold text-gray-800">
+          <div class="mb-5 flex items-center gap-2">
+            <h2 class="text-base font-bold text-slate-700" style="font-family:'Oswald',sans-serif">
               {{ search ? `Results for "${search}"` : categories.find(c => c.id === activeCat)?.label }}
             </h2>
-            <span class="text-xs text-gray-400">{{ visibleTools.length }} tools</span>
-            <button v-if="search || activeCat !== 'all'" @click="search=''; activeCat='all'"
-              class="ml-auto text-xs text-blue-500 hover:text-blue-700">Clear</button>
+            <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{{ visibleTools.length }}</span>
+            <button @click="search=''; activeCat='all'" class="ml-auto text-xs text-cyan-500 hover:text-cyan-700 font-medium">
+              Clear ×
+            </button>
           </div>
-          <div v-if="visibleTools.length === 0" class="text-center py-20 text-gray-400">
-            <i class="bx bx-search text-5xl mb-3 block"></i>
+          <div v-if="visibleTools.length === 0" class="text-center py-20 text-slate-400">
+            <i class="bx bx-search text-5xl mb-3 block text-cyan-200"></i>
             No tools match "{{ search }}"
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
@@ -63,14 +73,17 @@
           </div>
         </template>
 
-        <!-- Default: grouped by category -->
+        <!-- Grouped default -->
         <template v-else>
           <div v-for="group in groupedTools" :key="group.category" class="mb-10">
             <div class="flex items-center gap-2 mb-4">
-              <i :class="`bx ${group.icon} text-lg ${group.iconColor}`"></i>
-              <h2 class="text-base font-bold text-gray-700">{{ group.category }}</h2>
-              <div class="flex-1 h-px bg-gray-200 ml-1"></div>
-              <span class="text-xs text-gray-400">{{ group.tools.length }}</span>
+              <div class="w-1 h-5 rounded-full bg-cyan-400"></div>
+              <i :class="`bx ${group.icon} text-base ${group.iconColor}`"></i>
+              <h2 class="text-sm font-bold text-slate-600 uppercase tracking-wider" style="font-family:'Oswald',sans-serif">
+                {{ group.category }}
+              </h2>
+              <div class="flex-1 h-px bg-cyan-100 ml-1"></div>
+              <span class="text-xs text-slate-400">{{ group.tools.length }}</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
               <ToolCard v-for="tool in group.tools" :key="tool.path" :tool="tool" />
@@ -101,21 +114,12 @@ const visibleTools = computed(() => {
   return list
 })
 
-const catMeta = Object.fromEntries(categories.map(c => [c.id, c]))
-
 const groupedTools = computed(() =>
-  categories
-    .filter(c => c.id !== 'all')
-    .map(c => ({
-      category:  c.label,
-      icon:      c.icon,
-      iconColor: c.id === 'Text & Writing'  ? 'text-green-500'  :
-                 c.id === 'Converters'       ? 'text-orange-500' :
-                 c.id === 'Developer Tools'  ? 'text-purple-500' :
-                 c.id === 'Math & Science'   ? 'text-blue-500'   :
-                 'text-pink-500',
-      tools: tools.filter(t => t.category === c.id),
-    }))
-    .filter(g => g.tools.length > 0)
+  categories.filter(c => c.id !== 'all').map(c => ({
+    category:  c.label,
+    icon:      c.icon,
+    iconColor: { 'Text & Writing': 'text-teal-500', 'Converters': 'text-sky-500', 'Developer Tools': 'text-cyan-600', 'Math & Science': 'text-cyan-500', 'Fun & Visual': 'text-teal-400' }[c.id] || 'text-cyan-500',
+    tools: tools.filter(t => t.category === c.id),
+  })).filter(g => g.tools.length > 0)
 )
 </script>
