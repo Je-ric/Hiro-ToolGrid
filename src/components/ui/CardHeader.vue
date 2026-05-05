@@ -1,13 +1,13 @@
 <template>
-  <h2 class="text-sm font-semibold text-slate-700 flex items-center gap-2 uppercase tracking-wider">
-    <i v-if="icon" :class="`bx ${icon} text-base ${iconColor}`"></i>
-    <slot />
-  </h2>
+  <div class="flex items-center gap-2">
+    <i v-if="icon" :class="`bx ${icon} text-base`" :style="`color:${iconColor}`"></i>
+    <span class="text-xs font-semibold uppercase tracking-wider text-slate-500"><slot /></span>
+  </div>
 </template>
 
 <script setup>
 defineProps({
   icon:      { type: String, default: '' },
-  iconColor: { type: String, default: 'text-cyan-500' },
+  iconColor: { type: String, default: '#0891b2' },
 })
 </script>

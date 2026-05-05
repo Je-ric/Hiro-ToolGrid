@@ -3,9 +3,9 @@
     @click="$emit('click')"
     :type="type"
     :disabled="disabled"
-    :class="['tg-btn', variantClass, sizeClass, cls]"
+    :class="['tg-btn', variantClass, sizeClass, full ? 'tg-btn-full' : '']"
   >
-    <i v-if="icon" :class="`bx ${icon} text-sm`"></i>
+    <i v-if="icon" :class="`bx ${icon}`" style="font-size:0.9em"></i>
     <slot />
   </button>
 </template>
@@ -18,22 +18,17 @@ const props = defineProps({
   icon:     { type: String, default: '' },
   type:     { type: String, default: 'button' },
   disabled: { type: Boolean, default: false },
-  size:     { type: String, default: 'md' },
+  size:     { type: String, default: 'md' },   // sm | md | lg
+  full:     { type: Boolean, default: false },
+  // legacy
   cls:      { type: String, default: '' },
 })
 
-const variantClass = computed(() => ({
-  primary:   'tg-btn-primary',
-  copy:      'tg-btn-copy',
-  download:  'tg-btn-download',
-  ghost:     'tg-btn-ghost',
-  secondary: 'tg-btn-secondary',
-  danger:    'tg-btn-danger',
-  // legacy aliases
-  green:     'tg-btn-copy',
-  purple:    'tg-btn-primary',
-  blue:      'tg-btn-primary',
-}[props.variant] || 'tg-btn-primary'))
-
-const sizeClass = computed(() => props.size === 'sm' ? 'px-3 py-1.5 text-xs' : props.size === 'lg' ? 'px-5 py-2.5 text-sm' : '')
+const MAP = {
+  primary: 'tg-btn-primary', copy: 'tg-btn-copy', download: 'tg-btn-download',
+  ghost: 'tg-btn-ghost', secondary: 'tg-btn-secondary', danger: 'tg-btn-danger',
+  green: 'tg-btn-copy', purple: 'tg-btn-primary', blue: 'tg-btn-primary',
+}
+const variantClass = computed(() => MAP[props.variant] || 'tg-btn-primary')
+const sizeClass    = computed(() => ({ sm: 'tg-btn-sm', lg: 'tg-btn-lg' }[props.size] || ''))
 </script>
