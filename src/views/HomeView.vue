@@ -2,82 +2,109 @@
   <div class="min-h-screen flex flex-col" style="background:var(--bg-page)">
 
     <!-- Header -->
-    <header class="bg-white border-b px-6 py-4" style="border-color:var(--border);box-shadow:var(--shadow-sm)">
-      <div class="max-w-screen-2xl mx-auto flex items-center justify-between gap-4">
-        <div>
-          <h1 class="text-2xl font-bold tracking-tight" style="font-family:'Oswald',sans-serif;color:var(--text-base)">
-            Tool<span style="color:var(--accent)">Grid</span>
-          </h1>
-          <p class="text-xs mt-0.5" style="color:var(--text-faint)">{{ tools.length }} tools — all in your browser</p>
+    <header class="bg-white border-b sticky top-0 z-50 px-6 py-4 flex items-center justify-between"
+      style="border-color:var(--border);box-shadow:var(--shadow-sm)">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-lg"
+          style="background:linear-gradient(135deg,#15803d,#22c55e)">
+          <i class="bx bx-grid-alt"></i>
         </div>
-        <div class="relative">
+        <span class="text-xl font-bold tracking-tight" style="color:var(--text-base)">
+          Tool<span style="color:var(--accent)">Grid</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="relative hidden sm:block">
           <i class="bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-sm" style="color:var(--text-faint)"></i>
-          <input v-model="search" placeholder="Search tools…" class="tg-input pl-8 w-56 sm:w-72" />
+          <input v-model="search" placeholder="Search tools…" class="tg-input pl-8 w-48 sm:w-64" />
         </div>
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full hidden sm:inline"
+          style="background:var(--bg-accent);color:var(--text-muted)">
+          {{ tools.length }} tools
+        </span>
+        <a href="https://github.com/Je-ric" target="_blank"
+          class="text-sm font-medium transition-colors flex items-center gap-1.5"
+          style="color:var(--text-muted)"
+          onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+          <i class="bx bxl-github text-lg"></i>
+          <span class="hidden md:inline">@Je-ric</span>
+        </a>
       </div>
     </header>
 
-    <div class="flex flex-1 max-w-screen-2xl mx-auto w-full">
-
-      <!-- Sidebar -->
-      <aside class="hidden md:flex flex-col gap-0.5 w-52 shrink-0 p-4 pt-6">
-        <p class="tg-label px-3 mb-2">Categories</p>
-        <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id"
-          :class="['flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-all text-left w-full',
-            activeCat === cat.id ? 'tg-tab-active' : 'tg-tab']"
-          style="border-radius:0.5rem">
-          <i :class="`bx ${cat.icon} text-sm`"></i>
-          <span class="flex-1 truncate">{{ cat.label }}</span>
-          <span class="text-xs font-bold px-1.5 py-0.5 rounded-full"
-            :style="activeCat === cat.id ? 'background:rgba(255,255,255,0.25);color:#fff' : 'background:#f1f5f9;color:#64748b'">
-            {{ cat.id === 'all' ? tools.length : tools.filter(t => t.category === cat.id).length }}
-          </span>
-        </button>
-      </aside>
-
-      <!-- Main -->
-      <main class="flex-1 p-4 md:p-6 min-w-0">
-
-        <!-- Mobile pills -->
-        <div class="md:hidden flex gap-2 overflow-x-auto scrollbar-hide mb-4 pb-1">
-          <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id"
-            :class="['tg-tab shrink-0', activeCat === cat.id ? 'tg-tab-active' : '']">
-            <i :class="`bx ${cat.icon} mr-1`"></i>{{ cat.label }}
-          </button>
-        </div>
-
-        <!-- Filtered/searched -->
-        <template v-if="search || activeCat !== 'all'">
-          <div class="mb-5 flex items-center gap-2">
-            <h2 class="text-sm font-bold" style="font-family:'Oswald',sans-serif;color:var(--text-base)">
-              {{ search ? `Results for "${search}"` : categories.find(c => c.id === activeCat)?.label }}
-            </h2>
-            <span class="text-xs px-2 py-0.5 rounded-full" style="background:#f1f5f9;color:var(--text-muted)">{{ visibleTools.length }}</span>
-            <button @click="search=''; activeCat='all'" class="ml-auto text-xs font-semibold" style="color:var(--accent)">Clear ×</button>
-          </div>
-          <p v-if="visibleTools.length === 0" class="text-center py-20" style="color:var(--text-faint)">
-            <i class="bx bx-search text-5xl block mb-3"></i>No tools match "{{ search }}"
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            <ToolCard v-for="tool in visibleTools" :key="tool.path" :tool="tool" />
-          </div>
-        </template>
-
-        <!-- Grouped -->
-        <template v-else>
-          <div v-for="group in groupedTools" :key="group.category" class="mb-10">
-            <div class="tg-section-title mb-4">
-              <i :class="`bx ${group.icon}`" :style="`color:${group.color}`"></i>
-              {{ group.category }}
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-              <ToolCard v-for="tool in group.tools" :key="tool.path" :tool="tool" />
-            </div>
-          </div>
-        </template>
-
-      </main>
+    <!-- Mobile search -->
+    <div class="sm:hidden px-4 pt-3 pb-1">
+      <div class="relative">
+        <i class="bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-sm" style="color:var(--text-faint)"></i>
+        <input v-model="search" placeholder="Search tools…" class="tg-input pl-8" />
+      </div>
     </div>
+
+    <!-- Hero -->
+    <section class="relative overflow-hidden py-14 px-6 text-center"
+      style="background:linear-gradient(135deg,#052e16 0%,#14532d 40%,#166534 70%,#15803d 100%)">
+      <div class="absolute inset-0 pointer-events-none opacity-10"
+        style="background-image:radial-gradient(circle,#22c55e22 1px,transparent 1px);background-size:28px 28px"></div>
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 text-xs font-bold px-4 py-1.5 rounded-full mb-5 uppercase tracking-widest"
+          style="background:rgba(22,163,74,0.25);color:#86efac">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block"></span>
+          All tools run in your browser
+        </span>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+          Your Browser. <span style="color:#4ade80">Your Toolbox.</span>
+        </h1>
+        <p class="text-lg mb-8 font-medium" style="color:#bbf7d0">
+          {{ tools.length }} interactive tools — no installs, no sign-ups, just open and use.
+        </p>
+        <button @click="scrollToTools"
+          class="inline-flex items-center gap-2 font-bold px-7 py-3 rounded-xl text-white transition-all"
+          style="background:linear-gradient(90deg,#15803d,#22c55e)"
+          onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+          Browse Tools <i class="bx bx-down-arrow-alt text-lg"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <main ref="toolsSection" class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-10">
+
+      <!-- Category pills -->
+      <div class="flex gap-2 overflow-x-auto scrollbar-hide mb-6 pb-1">
+        <button v-for="cat in categories" :key="cat.id" @click="activeCat = cat.id; search = ''"
+          :class="['tg-tab shrink-0', activeCat === cat.id ? 'tg-tab-active' : '']">
+          <i :class="`bx ${cat.icon} mr-1`"></i>{{ cat.label }}
+        </button>
+      </div>
+
+      <!-- Section header -->
+      <div class="mb-5 flex items-center gap-3">
+        <h2 class="text-sm font-bold uppercase tracking-widest" style="color:var(--text-muted)">
+          {{ search ? `Results for "${search}"` : categories.find(c => c.id === activeCat)?.label }}
+        </h2>
+        <div class="flex-1 h-px" style="background:var(--border)"></div>
+        <span class="text-xs font-bold px-2 py-0.5 rounded-full" style="background:var(--bg-accent);color:var(--text-muted)">
+          {{ visibleTools.length }}
+        </span>
+        <button v-if="search || activeCat !== 'all'" @click="search=''; activeCat='all'"
+          class="text-xs font-semibold" style="color:var(--accent)">Clear ×</button>
+      </div>
+
+      <p v-if="visibleTools.length === 0" class="text-center py-20" style="color:var(--text-faint)">
+        <i class="bx bx-search text-5xl block mb-3"></i>No tools match "{{ search }}"
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+        <ToolCard v-for="tool in visibleTools" :key="tool.path" :tool="tool" />
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-5 text-sm border-t" style="border-color:var(--border);color:var(--text-faint)">
+      ToolGrid · {{ tools.length }} tools ·
+      <a href="https://github.com/Je-ric" class="font-semibold transition-colors" style="color:var(--accent)"
+        onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--accent)'">@Je-ric (Hiro)</a>
+    </footer>
   </div>
 </template>
 
@@ -88,6 +115,11 @@ import ToolCard from '../components/tools/ToolCard.vue'
 
 const search    = ref('')
 const activeCat = ref('all')
+const toolsSection = ref(null)
+
+function scrollToTools() {
+  toolsSection.value?.scrollIntoView({ behavior: 'smooth' })
+}
 
 const visibleTools = computed(() => {
   let list = tools
@@ -98,14 +130,4 @@ const visibleTools = computed(() => {
   }
   return list
 })
-
-const GROUP_COLORS = { 'Text & Writing': '#0d9488', 'Converters': '#0284c7', 'Developer Tools': '#0891b2', 'Math & Science': '#0891b2', 'Fun & Visual': '#0d9488' }
-
-const groupedTools = computed(() =>
-  categories.filter(c => c.id !== 'all').map(c => ({
-    category: c.label, icon: c.icon,
-    color: GROUP_COLORS[c.id] || '#0891b2',
-    tools: tools.filter(t => t.category === c.id),
-  })).filter(g => g.tools.length > 0)
-)
 </script>

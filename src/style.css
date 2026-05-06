@@ -1,6 +1,6 @@
 /* ── Fonts ─────────────────────────────────────────────────────────────────── */
 body, button, input, select, textarea {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 .font-mono, code, pre, .tg-mono {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -10,38 +10,37 @@ h1, h2, h3, .font-display {
   letter-spacing: 0.01em;
 }
 
-/* ── Color Palette ─────────────────────────────────────────────────────────── */
-/* Light background, dark text, slate borders, cyan/teal only for accents      */
+/* ── Color Palette — GreenHost ─────────────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg-page:    #f8fafc;   /* slate-50 — page bg */
-  --bg-card:    #ffffff;   /* white cards */
-  --bg-input:   #f8fafc;   /* input bg */
-  --bg-accent:  #f0fdff;   /* very light cyan tint for highlights */
+  --bg-page:    #f0fdf4;   /* green-50 */
+  --bg-card:    #ffffff;
+  --bg-input:   #f0fdf4;
+  --bg-accent:  #dcfce7;   /* green-100 */
 
   /* Borders */
-  --border:     #e2e8f0;   /* slate-200 — default border */
-  --border-md:  #cbd5e1;   /* slate-300 — medium border */
-  --border-accent: #bae6fd; /* sky-200 — accent border */
+  --border:     #bbf7d0;   /* green-200 */
+  --border-md:  #86efac;   /* green-300 */
+  --border-accent: #4ade80; /* green-400 */
 
   /* Text */
-  --text-base:  #0f172a;   /* slate-900 */
-  --text-muted: #64748b;   /* slate-500 */
-  --text-faint: #94a3b8;   /* slate-400 */
+  --text-base:  #052e16;   /* green-950 */
+  --text-muted: #166534;   /* green-800 */
+  --text-faint: #15803d;   /* green-700 */
 
-  /* Accent colors (used sparingly) */
-  --accent:     #0891b2;   /* cyan-600 — primary accent */
-  --accent-lt:  #06b6d4;   /* cyan-500 */
-  --accent-bg:  #ecfeff;   /* cyan-50 */
-  --teal:       #0d9488;   /* teal-600 */
-  --teal-lt:    #14b8a6;   /* teal-500 */
-  --sky:        #0284c7;   /* sky-600 */
-  --sky-lt:     #0ea5e9;   /* sky-500 */
+  /* Accent — GreenHost primary green */
+  --accent:     #16a34a;   /* green-600 */
+  --accent-lt:  #22c55e;   /* green-500 */
+  --accent-bg:  #dcfce7;   /* green-100 */
+  --teal:       #15803d;   /* green-700 */
+  --teal-lt:    #16a34a;   /* green-600 */
+  --sky:        #166534;   /* green-800 */
+  --sky-lt:     #15803d;   /* green-700 */
 
   /* Shadows */
-  --shadow-sm:  0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-md:  0 4px 12px rgba(15,23,42,0.10), 0 2px 4px rgba(15,23,42,0.06);
-  --shadow-accent: 0 4px 16px rgba(8,145,178,0.15);
+  --shadow-sm:  0 1px 3px rgba(5,46,22,0.08), 0 1px 2px rgba(5,46,22,0.04);
+  --shadow-md:  0 4px 12px rgba(5,46,22,0.10), 0 2px 4px rgba(5,46,22,0.06);
+  --shadow-accent: 0 4px 16px rgba(22,163,74,0.20);
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────────── */
@@ -54,10 +53,10 @@ body {
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-* { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+::-webkit-scrollbar-track { background: #f0fdf4; }
+::-webkit-scrollbar-thumb { background: #86efac; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #4ade80; }
+* { scrollbar-width: thin; scrollbar-color: #86efac transparent; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -65,6 +64,14 @@ body {
 input:focus, textarea:focus, select:focus, button:focus-visible {
   outline: 2px solid var(--accent-lt);
   outline-offset: 2px;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg-page);
+  color: var(--text-base);
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── Cards ─────────────────────────────────────────────────────────────────── */
