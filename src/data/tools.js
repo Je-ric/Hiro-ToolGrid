@@ -1,4 +1,8 @@
 export const tools = [
+  { num: '27', category: 'Developer Tools', name: 'JSON Formatter & Validator', path: '/tools/json-formatter', desc: 'Validate, pretty-print, and minify JSON with clear errors.', icon: 'bx-code-curly', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-700', isNew: true, component: () => import('../views/JsonFormatter.vue') },
+  { num: '28', category: 'Converters', name: 'URL Encoder / Decoder', path: '/tools/url-codec', desc: 'Encode URL components or decode percent-encoded text.', icon: 'bx-link', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-700', isNew: true, component: () => import('../views/UrlCodec.vue') },
+  { num: '29', category: 'Developer Tools', name: 'UUID Generator', path: '/tools/uuid-generator', desc: 'Generate up to 100 cryptographically random version 4 UUIDs.', icon: 'bx-fingerprint', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-700', isNew: true, component: () => import('../views/UuidGenerator.vue') },
+  { num: '30', category: 'Converters', name: 'Unix Timestamp Converter', path: '/tools/unix-timestamp', desc: 'Convert seconds, milliseconds, and timezone-aware ISO dates.', icon: 'bx-calendar', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-700', isNew: true, component: () => import('../views/UnixTimestamp.vue') },
   // ── Text & Writing ─────────────────────────────────────────────────────────
   {
     num: '01', category: 'Text & Writing',

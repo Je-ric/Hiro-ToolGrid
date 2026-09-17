@@ -3,7 +3,7 @@
 
     <!-- Top bar -->
     <div class="bg-white border-b px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3" style="border-color:var(--border)">
-      <router-link to="/" class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
+      <router-link to="/" aria-label="Back to all tools" class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
         style="color:var(--text-muted)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
         <i class="bx bx-arrow-back"></i>
         <span class="hidden sm:inline">Back</span>
@@ -37,13 +37,13 @@
 
     <!-- Mobile legend — collapsible bottom -->
     <div v-if="$slots.legend" class="xl:hidden border-t bg-white" style="border-color:var(--border)">
-      <button @click="open = !open"
+      <button :aria-expanded="open" aria-controls="mobile-guide" @click="open = !open"
         class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold"
         style="color:var(--accent)">
         <span class="flex items-center gap-1.5"><i class="bx bx-info-circle"></i> Guide / Reference</span>
         <i :class="`bx ${open ? 'bx-chevron-down' : 'bx-chevron-up'} text-lg`"></i>
       </button>
-      <div v-show="open" class="px-4 pb-4 flex flex-col gap-2 text-xs" style="color:var(--text-muted)">
+      <div id="mobile-guide" v-show="open" class="px-4 pb-4 flex flex-col gap-2 text-xs" style="color:var(--text-muted)">
         <slot name="legend" />
       </div>
     </div>
