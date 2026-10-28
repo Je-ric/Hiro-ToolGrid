@@ -72,6 +72,7 @@
 
 <script setup>
 import { ref, nextTick } from 'vue'
+import QRCode from 'qrcode'
 import ToolLayout from '../components/layouts/ToolLayout.vue'
 import ErrorBox from '../components/ui/ErrorBox.vue'
 
@@ -79,7 +80,6 @@ const qrInput = ref(''), qrSize = ref('200'), qrLevel = ref('M')
 const darkColor = ref('#000000'), lightColor = ref('#ffffff')
 const error = ref(''), hasQR = ref(false)
 const qrCanvas = ref(null)
-let qrInstance = null
 
 const presets = [
   { type:'url',   label:'URL',        icon:'🌐', value:'https://example.com' },
@@ -90,23 +90,23 @@ const presets = [
   { type:'text',  label:'Plain Text', icon:'📝', value:'Hello, World!' },
 ]
 
-const levelMap = { L: QRCode.CorrectLevel.L, M: QRCode.CorrectLevel.M, Q: QRCode.CorrectLevel.Q, H: QRCode.CorrectLevel.H }
-
 async function generateQR() {
   error.value = ''
   if (!qrInput.value.trim()) { error.value = 'Please enter some text or a URL.'; return }
   hasQR.value = true
   await nextTick()
-  if (qrInstance) { qrInstance.clear(); qrInstance = null }
-  qrCanvas.value.innerHTML = ''
-  qrInstance = new QRCode(qrCanvas.value, {
-    text: qrInput.value.trim(),
-    width: parseInt(qrSize.value),
-    height: parseInt(qrSize.value),
-    colorDark: darkColor.value,
-    colorLight: lightColor.value,
-    correctLevel: levelMap[qrLevel.value]
-  })
+  try {
+    const canvas = document.createElement('canvas')
+    await QRCode.toCanvas(canvas, qrInput.value.trim(), {
+      width: Number(qrSize.value),
+      color: { dark: darkColor.value, light: lightColor.value },
+      errorCorrectionLevel: qrLevel.value,
+    })
+    qrCanvas.value.replaceChildren(canvas)
+  } catch (cause) {
+    hasQR.value = false
+    error.value = cause instanceof Error ? cause.message : 'Unable to generate a QR code.'
+  }
 }
 
 function downloadQR() {
@@ -120,6 +120,5 @@ function downloadQR() {
 
 function clearQR() {
   qrInput.value = ''; error.value = ''; hasQR.value = false
-  if (qrInstance) { qrInstance.clear(); qrInstance = null }
 }
 </script>
